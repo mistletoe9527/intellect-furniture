@@ -1,0 +1,14 @@
+version: '2'
+services:
+  furniture-admin:
+    image: furniture/admin
+    ports:
+      - "8080:8080"
+    environment:
+      - spring.profiles.active=dev
+  furniture-api:
+    image: furniture/api
+    ports:
+      - "8081:8081"
+    environment:
+      - spring.profiles.active=dev
