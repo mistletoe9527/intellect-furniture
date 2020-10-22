@@ -65,3 +65,7 @@ mybatis-plus:
     cache-enabled: false
     call-setters-on-nulls: true
     jdbc-type-for-null: 'null'
+
+
+operation:
+ savePath: /Users/wangjia/Desktop/banner
