@@ -25,10 +25,9 @@ public class BannerServiceImpl extends ServiceImpl<BannerDao, BannerEntity> impl
     @Override
     @DataFilter(subDept = true, user = false)
     public PageUtils queryPage(Map<String, Object> params) {
-
         IPage<BannerEntity> page = this.page(
                 new Query<BannerEntity>().getPage(params,"sort",false),
-                new QueryWrapper<BannerEntity>());
+                new QueryWrapper<BannerEntity>().eq("type",params.get("type")));
         return new PageUtils(page);
     }
 }

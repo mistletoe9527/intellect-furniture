@@ -12,6 +12,7 @@
         <result property="editTime" column="edit_time"/>
         <result property="isDelete" column="is_delete"/>
         <result property="sort" column="sort"/>
+        <result property="type" column="type"/>
     </resultMap>
 
 </mapper>

@@ -10,7 +10,6 @@ $(function () {
 			{ label: '微信', name: 'wechat', index: 'wechat', width: 80 },
 			{ label: '创建时间', name: 'createTime', index: 'create_time', width: 80 },
 			{ label: '修改时间', name: 'editTime', index: 'edit_time', width: 80 }
-			// { label: '', name: 'operateId', index: 'operate_id', width: 80 }
         ],
 		viewrecords: true,
         height: 385,

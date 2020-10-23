@@ -44,7 +44,6 @@ public class BannerController {
     @RequestMapping("/list")
     @RequiresPermissions("homepage:banner:list")
     public R list(@RequestParam Map<String, Object> params){
-        params.put("isDelete",0);
         PageUtils page = bannerService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -113,7 +112,6 @@ public class BannerController {
 
         String fileName = file.getOriginalFilename();  // 文件名
         String suffixName = fileName.substring(fileName.lastIndexOf("."));  // 后缀名
-//        String filePath = "//Users//wangjia//Desktop//"; // 上传后的路径
         fileName = UUID.randomUUID() + suffixName; // 新文件名
 
         getProperties("");
@@ -130,7 +128,7 @@ public class BannerController {
         }
 
         Map<String,Object> resultMap = new HashMap<>();
-        resultMap.put("picPath",savePath + fileName);
+        resultMap.put("picPath",fileName);
         return R.ok(resultMap);
     }
 
@@ -142,7 +140,6 @@ public class BannerController {
     private static void getProperties(String name) {
         YamlPropertiesFactoryBean factoryBean = new YamlPropertiesFactoryBean();
         factoryBean.setResources(new ClassPathResource("application.yml"));
-//        factoryBean.setResources(new ClassPathResource("application"+name+"yml"));
         factoryBean.afterPropertiesSet();
         Properties object = factoryBean.getObject();
         savePath = (String) object.get("operation.savePath");

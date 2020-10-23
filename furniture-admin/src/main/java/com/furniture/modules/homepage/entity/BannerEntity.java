@@ -50,6 +50,10 @@ public class BannerEntity implements Serializable {
 	 */
 	private Integer sort;
 
+	/**
+	 * 图片类型 1- banner 2-介绍图
+	 */
+	private Integer type;
 
 
 }

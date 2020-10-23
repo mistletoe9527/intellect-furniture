@@ -1,26 +1,27 @@
+function getQueryString(key){
+    var href=window.location.href;
+    var reg = new RegExp(key +"=([^&]+)");
+    var march=reg.exec(href);
+    if(march!=null){
+        var value=march[1];
+        return value;
+    }
+    return null;
+}
+var type = getQueryString("type");
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'homepage/banner/list',
+        url: baseURL + 'homepage/banner/list?type='+type,
         datatype: "json",
         colModel: [			
 			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
-            { label: 'banner名称', name: 'bannerName', index: 'banner_name', width: 80 },
-            { label: '图片地址', name: 'picUrl', index: 'pic_url', width: 80, formatter:function(value, options, row){
-                    return '<img src="+value+" width="50%" height="90%" align="center"/>';
+            { label: '名称', name: 'bannerName', index: 'banner_name', width: 80 },
+            { label: '图片地址', name: 'picUrl', index: 'pic_url', align:'center',width: 120, formatter:function(value, options, row){
+                    var text = value;
+                    return '<div><img src="'+baseURL+"/image/"+text+'" width="100px" height="100px"/></div>';
             }
             },
-            //显示图片缩略图
             { label: '排序', name: 'sort', index: 'sort', width: 80 },
-            // { label: '删除', name: 'isDelete', index: 'is_delete', width: 80,
-            //     formatter:function(index,row){
-            //         var html="<span>";
-            //         html += "<a href='javascript:void(0);' title='"+cellvalue+"' @click='deleteBanner(\""+row.id+"\")'>";
-            //         html += "<font color='blue'>"+cellvalue;
-            //         html += "</font>";
-            //         html += "</a></span>";
-            //         return html;
-            //     }
-            //     },
 
         ],
 		viewrecords: true,
@@ -55,7 +56,8 @@ var vm = new Vue({
 	data:{
 		showList: true,
 		title: null,
-		banner: {}
+		banner: {},
+        typeShow:type == 1 ? true:false
 	},
 	methods: {
 		query: function () {
@@ -79,6 +81,7 @@ var vm = new Vue({
 		saveOrUpdate: function (event) {
 		    $('#btnSaveOrUpdate').button('loading').delay(1000).queue(function() {
                 var url = vm.banner.id == null ? "homepage/banner/save" : "homepage/banner/update";
+                vm.banner.type = type;
                 $.ajax({
                     type: "POST",
                     url: baseURL + url,
@@ -131,6 +134,7 @@ var vm = new Vue({
 		getInfo: function(id){
 			$.get(baseURL + "homepage/banner/info/"+id, function(r){
                 vm.banner = r.banner;
+                vm.banner.picUrl = baseURL+"/image/"+r.banner.picUrl;
             });
 		},
 		reload: function (event) {
@@ -141,10 +145,7 @@ var vm = new Vue({
             }).trigger("reloadGrid");
 		},
         handleAvatarSuccess:function(res, file) {
-            console.log(res);
-            console.log(file);
-            vm.banner.picUr = res.picPath;
-            console.log(vm.banner.picUr);
+            vm.banner.picUrl = res.picPath;
         },
         beforeAvatarUpload:function(file) {
             var testmsg = /^image\/(jpeg|png|jpg)$/.test(file.type)
